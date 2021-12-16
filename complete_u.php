@@ -1,28 +1,29 @@
 <?php
-  session_start();
-  require_once("functions.php");
+    session_start();
+    require_once("functions.php");
 
-  /* (1)ここにセッション変数の受け渡し処理を追加して下さい  */
+    /* (1)ここにセッション変数の受け渡し処理を追加して下さい  */
+    $edit = $_SESSION['edit']; 
+    $name = $_SESSION['name']; 
+    $email = $_SESSION['email']; 
+    $gender = $_SESSION['gender']; 
 
+    $dbh = db_conn();      // データベース接続
+    try{
+        /* (2)ここにSQL文＋プレースホルダー　の文字列を準備する処理を追加して下さい  */
 
-
-
-
-$dbh = db_conn();      // データベース接続
-try{
-    /* (2)ここにSQL文＋プレースホルダー　の文字列を準備する処理を追加して下さい  */
-
-    $stmt = $dbh->prepare($sql);                           //クエリの実行準備
-    $stmt->bindValue(':email', $email, PDO::PARAM_STR);    //バインド:プレースホルダ―の値を埋める
-    $stmt->bindValue(':name', $name, PDO::PARAM_STR);      //バインド:プレースホルダ―の値を埋める
-    $stmt->bindValue(':gender', $gender, PDO::PARAM_INT);  //バインド:プレースホルダーを埋める
-    $stmt->bindValue(':id', $edit, PDO::PARAM_INT);         //バインド:プレースホルダーを埋める
-    $stmt->execute();                                      //クエリの実行
-    $dbh = null;                                           //MySQL接続解除
-}catch (PDOException $e){
-    echo($e->getMessage());
-    die();
-}
+        $stmt = $dbh->prepare($sql);                           //クエリの実行準備
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);    //バインド:プレースホルダ―の値を埋める
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);      //バインド:プレースホルダ―の値を埋める
+        $stmt->bindValue(':gender', $gender, PDO::PARAM_INT);  //バインド:プレースホルダーを埋める
+        $stmt->bindValue(':id', $edit, PDO::PARAM_INT);         //バインド:プレースホルダーを埋める
+        $stmt->execute();                                      //クエリの実行
+        $dbh = null;                                           //MySQL接続解除
+        $sql = "UPDATE user SET email = :email, name = :name, gender = :gender, updatedate = NOW() WHERE id = :id"; 
+    }catch (PDOException $e){
+        echo($e->getMessage());
+        die();
+    }
 ?>
 
 <!DOCTYPE html>

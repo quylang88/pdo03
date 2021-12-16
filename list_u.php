@@ -56,6 +56,7 @@ try{
 
 <div class="container">
 /*  (1)ここに適切な formタグを追加してください  */
+<form action="edit.php" method="POST">
 
 <table border=1>
     <tr><th>id</th><th>名前</th><th>メールアドレス</th><th>性別</th><th>選択対象</th></tr>
@@ -77,7 +78,7 @@ try{
     </td>
     <td>
         /*  (2)ここにラジオボタン表示処理を追加して下さい  */
-
+        <?php echo "<input type='radio' name='edit' value='<?php echo $row[id];?>'>編集";?> 
     </td>
     </tr>
     <?php endforeach; ?>
@@ -86,10 +87,10 @@ try{
 
 <p>編集するデータを選択してください</p>
 
-        <div class="button-wrapper">
-            <button type="button" onclick="location.href='search_u.php'">戻る</button>
-	        <button type="submit" class="btn btn--naby btn--shadow">編集する</button>
-        </div>
+<div class="button-wrapper">
+    <button type="button" onclick="location.href='search_u.php'">戻る</button>
+    <button type="submit" class="btn btn--naby btn--shadow">編集する</button>
+</div>
 </form>
 </div>
 
